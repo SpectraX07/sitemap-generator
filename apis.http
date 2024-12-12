@@ -1,0 +1,1 @@
+CURL http://localhost:3000/api/generate-sitemap?url=https://webingo.in/

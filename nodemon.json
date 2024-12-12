@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "controllers",
+    "routes",
+    "app.js"
+  ],
+  "ext": "js",
+  "exec": "node --experimental-modules app.js",
+  "ignore": ["node_modules", "public", ".env"]
+}
