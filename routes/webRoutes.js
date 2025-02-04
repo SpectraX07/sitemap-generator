@@ -5,6 +5,6 @@ import { renderSitemapForm } from '../controllers/web/viewsController.js';
 const router = express.Router();
 
 // Route to generate sitemap
-router.get('/generate-sitemap', renderSitemapForm);
+router.get('/', renderSitemapForm);
 
 export default router;

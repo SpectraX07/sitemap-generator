@@ -18,7 +18,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Use the sitemap routes
 // app.use('/', manageRoutes);
-app.use('/web', webRoutes);
+app.use('/', webRoutes);
 app.use('/api', apiRoutes);
 
 app.listen(process.env.PORT, () => {
