@@ -11,10 +11,12 @@ const app = express();
 const __dirname = path.resolve(); // If using ES modules
 
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
+app.set('views', path.join(__dirname, 'views')); // <-- Add this line
+
 app.use(express.static('public'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Use the sitemap routes
 // app.use('/', manageRoutes);
