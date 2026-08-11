@@ -183,8 +183,28 @@ import { normalizeUrl, getDisplayDomain } from './urlNormalize.js';
             });
 
             if (!response.ok) {
-                const err = await response.json().catch(() => ({}));
-                throw new Error(err.details || err.error || 'Crawl failed');
+                const contentType = response.headers.get('Content-Type') || '';
+                const body = await response.text().catch(() => '');
+
+                if (body.includes('FUNCTION_INVOCATION_TIMEOUT')) {
+                    throw new Error(
+                        'Crawl timed out on the server. Vercel limits how long a crawl can run — try a smaller site, or run the app on a long-running server (Railway, Render, etc.).'
+                    );
+                }
+
+                if (contentType.includes('application/json') && body) {
+                    try {
+                        const err = JSON.parse(body);
+                        throw new Error(err.details || err.error || 'Crawl failed');
+                    } catch (e) {
+                        if (e instanceof SyntaxError) {
+                            throw new Error('Crawl failed');
+                        }
+                        throw e;
+                    }
+                }
+
+                throw new Error('Crawl failed');
             }
 
             sitemapContent = await response.text();

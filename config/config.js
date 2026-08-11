@@ -1,7 +1,10 @@
+const isVercel = process.env.VERCEL === '1';
+
 export default {
     crawler: {
-        maxDepth: 10,
-        maxConcurrentRequests: 3,
+        maxDepth: isVercel ? 5 : 10,
+        maxPages: isVercel ? parseInt(process.env.MAX_PAGES || '100', 10) : 0,
+        maxConcurrentRequests: isVercel ? 2 : 3,
         timeout: 30000, // 30 seconds
         retryAttempts: 3,
         retryDelay: 1000, // 1 second
@@ -12,7 +15,7 @@ export default {
         excludePatterns: [], // Array of regex patterns to exclude
         includePatterns: [], // Array of regex patterns to include
         customPriorities: {}, // Map of URL patterns to priorities
-        crawlDelay: 500, // Milliseconds between request batches — balance speed vs WAF blocks
+        crawlDelay: isVercel ? 300 : 500, // Milliseconds between request batches — balance speed vs WAF blocks
         renderJavaScript: false,
         checkMobileFriendly: false,
         checkBrokenLinks: false,
