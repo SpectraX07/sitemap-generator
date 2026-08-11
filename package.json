@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -24,11 +25,15 @@
   "homepage": "https://github.com/SpectraX07/sitemap-generator#readme",
   "dependencies": {
     "axios": "^1.7.9",
+    "body-parser": "^1.20.2",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
+    "express-rate-limit": "^7.1.5",
     "nodemon": "^3.1.7",
+    "puppeteer": "^22.4.1",
+    "robots-parser": "^3.0.1",
     "sitemap": "^8.0.0",
     "xml-formatter": "^3.6.3"
   }

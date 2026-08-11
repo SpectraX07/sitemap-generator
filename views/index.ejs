@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Step 1: Landing -->
+<section id="step-landing" class="landing">
+    <div class="landing-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    </div>
+    <h1>Sitemap Generator</h1>
+    <p>Enter a website URL to crawl all pages and generate a sitemap in seconds.</p>
+    <form id="urlForm" class="url-form" novalidate>
+        <div class="url-input-wrap">
+            <input type="text" id="urlInput" placeholder="example.com" autocomplete="url" spellcheck="false" required autofocus>
+            <p class="url-hint hidden" id="urlHint"></p>
+            <p class="url-error hidden" id="urlError"></p>
+        </div>
+        <button type="submit" class="btn btn-primary" id="startBtn">Start Crawl</button>
+    </form>
+    <p class="landing-disclaimer">
+        Results may not be 100% complete. WAF, CAPTCHA, rate limits, and robots.txt can block some pages from being discovered.
+    </p>
+</section>
+
+<!-- Step 2: Crawling -->
+<section id="step-crawling" class="panel hidden">
+    <header class="panel-header">
+        <div class="panel-logo">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        </div>
+        <button class="btn btn-outline" id="cancelBtn">Cancel</button>
+    </header>
+
+    <div class="panel-body">
+        <div class="site-icon">
+            <img id="siteFavicon" src="" alt="">
+        </div>
+        <h2 class="site-domain" id="siteDomain"></h2>
+        <p class="site-description" id="siteDescription">Crawling website pages…</p>
+
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-label">Crawling:</span>
+                <div class="progress-count">
+                    <span id="progressCount">0 of 0</span>
+                    <button class="stop-btn" id="stopBtn" title="Stop crawl">
+                        <svg viewBox="0 0 10 10"><rect width="10" height="10" rx="1"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <a class="current-url" id="currentUrl" href="#" target="_blank" rel="noopener"></a>
+        </div>
+    </div>
+
+    <footer class="panel-footer">
+        <span>XML</span><span>HTML</span><span>TXT</span><span>SEO</span>
+    </footer>
+</section>
+
+<!-- Step 3: Complete -->
+<section id="step-complete" class="panel hidden">
+    <header class="panel-header">
+        <div class="panel-logo">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        </div>
+        <button class="btn btn-outline" id="resetBtn">Cancel</button>
+    </header>
+
+    <div class="panel-body">
+        <div class="site-icon">
+            <img id="completeFavicon" src="" alt="">
+        </div>
+        <span class="badge-complete">CRAWL COMPLETED</span>
+        <h2 class="pages-headline" id="pagesHeadline">0 pages discovered</h2>
+        <p class="pages-sub">Choose the format for your sitemap:</p>
+
+        <div class="format-cards">
+            <div class="format-card selected" data-format="xml" id="cardXml">
+                <div class="format-card-icon">🗺️</div>
+                <h3>XML Sitemap</h3>
+                <p>Standard XML sitemap for search engines.</p>
+            </div>
+            <div class="format-card" data-format="html" id="cardHtml">
+                <div class="format-card-icon">🌐</div>
+                <h3>Visual HTML</h3>
+                <p>Browse crawled pages in a visual list.</p>
+            </div>
+            <div class="format-card" data-format="txt" id="cardTxt">
+                <div class="format-card-icon">📄</div>
+                <h3>Plain Text</h3>
+                <p>Simple one-URL-per-line text file.</p>
+            </div>
+            <div class="format-card disabled">
+                <span class="coming-soon">COMING SOON</span>
+                <div class="format-card-icon">📋</div>
+                <h3>List View</h3>
+                <p>Review metadata and changes in a list.</p>
+            </div>
+        </div>
+
+        <button class="btn-create" id="downloadBtn">
+            Download Sitemap →
+        </button>
+    </div>
+
+    <footer class="panel-footer">
+        <span>XML</span><span>HTML</span><span>TXT</span><span>SEO</span>
+    </footer>
+</section>
+
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
