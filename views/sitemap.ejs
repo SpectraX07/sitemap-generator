@@ -4,31 +4,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sitemap Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/public/css/style.css">
+    <title>Advanced Sitemap Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <h1>Sitemap Generator</h1>
-        <div class="input-group">
-            <input type="text" id="url" placeholder="Enter website URL (e.g., https://example.com)" />
-            <button id="generate">Generate Sitemap</button>
-        </div>
-        <div class="output-container">
-            <div class="output-header">
-                <span class="output-title">Generated Sitemap</span>
-                <button class="copy-btn" id="copyBtn" disabled>Copy to Clipboard</button>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Advanced Sitemap Generator</h1>
+            <p class="text-gray-600">Generate comprehensive sitemaps with advanced features</p>
+        </header>
+
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+            <form id="sitemapForm" class="space-y-6">
+                <!-- Basic Settings -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-700">Basic Settings</h2>
+                    <div>
+                        <label for="url" class="block text-sm font-medium text-gray-700">Website URL</label>
+                        <input type="url" id="url" name="url" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            placeholder="https://example.com">
+                    </div>
+
+                    <div>
+                        <label for="format" class="block text-sm font-medium text-gray-700">Output Format</label>
+                        <select id="format" name="format"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option value="xml">XML</option>
+                            <option value="html">HTML</option>
+                            <option value="txt">Text</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Crawling Options -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-700">Crawling Options</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="maxDepth" class="block text-sm font-medium text-gray-700">Max Crawl Depth</label>
+                            <input type="number" id="maxDepth" name="maxDepth" min="1" max="100" value="10"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="crawlDelay" class="block text-sm font-medium text-gray-700">Crawl Delay (ms)</label>
+                            <input type="number" id="crawlDelay" name="crawlDelay" min="0" value="500"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Crawling Features</label>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="ignoreRobots" name="ignoreRobots"
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="ignoreRobots" class="ml-2 text-sm text-gray-600">Ignore robots.txt</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="renderJavaScript" name="renderJavaScript"
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="renderJavaScript" class="ml-2 text-sm text-gray-600">Render JavaScript</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="checkBrokenLinks" name="checkBrokenLinks"
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="checkBrokenLinks" class="ml-2 text-sm text-gray-600">Check for broken links</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Content Types</label>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="includeImages" name="includeImages" checked
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="includeImages" class="ml-2 text-sm text-gray-600">Include images</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="includeVideos" name="includeVideos" checked
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="includeVideos" class="ml-2 text-sm text-gray-600">Include videos</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="includeNews" name="includeNews"
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="includeNews" class="ml-2 text-sm text-gray-600">Include news</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="includeHreflang" name="includeHreflang"
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="includeHreflang" class="ml-2 text-sm text-gray-600">Include language alternates</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Options -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-700">Advanced Options</h2>
+                    <div>
+                        <label for="customHeaders" class="block text-sm font-medium text-gray-700">Custom Headers (JSON)</label>
+                        <textarea id="customHeaders" name="customHeaders" rows="3"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            placeholder='{"User-Agent": "Custom Bot"}'></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="excludePatterns" class="block text-sm font-medium text-gray-700">Exclude Patterns (one per line)</label>
+                            <textarea id="excludePatterns" name="excludePatterns" rows="3"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                placeholder="\\.pdf$&#10;/admin/.*"></textarea>
+                        </div>
+                        <div>
+                            <label for="includePatterns" class="block text-sm font-medium text-gray-700">Include Patterns (one per line)</label>
+                            <textarea id="includePatterns" name="includePatterns" rows="3"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                placeholder="/blog/.*&#10;/products/.*"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Output Options</label>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="compress" name="compress"
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="compress" class="ml-2 text-sm text-gray-600">Compress output</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="nocache" name="nocache"
+                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="nocache" class="ml-2 text-sm text-gray-600">Skip cache</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                    Generate Sitemap
+                </button>
+            </form>
+
+            <!-- Progress Section -->
+            <div id="progress" class="mt-8 hidden">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">Generation Progress</h3>
+                <div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div id="progressBar" class="bg-blue-600 h-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div class="mt-4 grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <span class="block text-sm text-gray-600">Processed</span>
+                        <span id="processedCount" class="text-lg font-semibold text-gray-800">0</span>
+                    </div>
+                    <div>
+                        <span class="block text-sm text-gray-600">Successful</span>
+                        <span id="successCount" class="text-lg font-semibold text-green-600">0</span>
+                    </div>
+                    <div>
+                        <span class="block text-sm text-gray-600">Failed</span>
+                        <span id="failedCount" class="text-lg font-semibold text-red-600">0</span>
+                    </div>
+                </div>
             </div>
-            <div class="output-content">
-                <pre><code id="output" class="language-markup">Your sitemap will appear here...</code></pre>
+
+            <!-- Result Section -->
+            <div id="result" class="mt-8 hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Generated Sitemap</h3>
+                    <button id="downloadBtn"
+                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        Download
+                    </button>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 overflow-auto max-h-96">
+                    <pre id="resultContent" class="text-sm text-gray-800 whitespace-pre-wrap"></pre>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const form = document.getElementById('sitemapForm');
+        const progress = document.getElementById('progress');
+        const result = document.getElementById('result');
+        const progressBar = document.getElementById('progressBar');
+        const processedCount = document.getElementById('processedCount');
+        const successCount = document.getElementById('successCount');
+        const failedCount = document.getElementById('failedCount');
+        const resultContent = document.getElementById('resultContent');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Reset UI
+            progress.classList.remove('hidden');
+            result.classList.add('hidden');
+            progressBar.style.width = '0%';
+            processedCount.textContent = '0';
+            successCount.textContent = '0';
+            failedCount.textContent = '0';
+
+            // Build query parameters
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+
+            // Add basic parameters
+            params.append('url', formData.get('url'));
+            params.append('format', formData.get('format'));
+
+            // Add boolean parameters
+            ['ignoreRobots', 'renderJavaScript', 'checkBrokenLinks', 'includeImages',
+             'includeVideos', 'includeNews', 'includeHreflang', 'compress', 'nocache'].forEach(param => {
+                params.append(param, formData.get(param) === 'on');
+            });
+
+            // Add numeric parameters
+            ['maxDepth', 'crawlDelay'].forEach(param => {
+                const value = formData.get(param);
+                if (value) params.append(param, value);
+            });
+
+            // Add custom headers if provided
+            const customHeaders = formData.get('customHeaders');
+            if (customHeaders) {
+                try {
+                    JSON.parse(customHeaders); // Validate JSON
+                    params.append('customHeaders', customHeaders);
+                } catch (error) {
+                    alert('Invalid JSON in custom headers');
+                    return;
+                }
+            }
+
+            // Add patterns
+            ['excludePatterns', 'includePatterns'].forEach(param => {
+                const patterns = formData.get(param)
+                    .split('\n')
+                    .map(p => p.trim())
+                    .filter(p => p);
+                if (patterns.length > 0) {
+                    params.append(param, JSON.stringify(patterns));
+                }
+            });
+
+            try {
+                const response = await fetch(`/api/sitemap?${params.toString()}`);
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.details || error.error || 'Failed to generate sitemap');
+                }
+
+                const contentType = response.headers.get('Content-Type');
+                let content;
+
+                if (contentType.includes('application/xml')) {
+                    content = await response.text();
+                    downloadBtn.onclick = () => {
+                        const blob = new Blob([content], { type: 'application/xml' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'sitemap.xml';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    };
+                } else if (contentType.includes('text/html')) {
+                    content = await response.text();
+                    downloadBtn.onclick = () => {
+                        const blob = new Blob([content], { type: 'text/html' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'sitemap.html';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    };
+                } else {
+                    content = await response.text();
+                    downloadBtn.onclick = () => {
+                        const blob = new Blob([content], { type: 'text/plain' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'sitemap.txt';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    };
+                }
+
+                resultContent.textContent = content;
+                result.classList.remove('hidden');
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                progress.classList.add('hidden');
+            }
+        });
+
+        // Update progress
+        let eventSource;
+        form.addEventListener('submit', () => {
+            if (eventSource) {
+                eventSource.close();
+            }
+
+            eventSource = new EventSource(`/api/sitemap/progress`);
+            eventSource.onmessage = (event) => {
+                const progress = JSON.parse(event.data);
+                const percent = (progress.processed / progress.total) * 100;
+                progressBar.style.width = `${percent}%`;
+                processedCount.textContent = progress.processed;
+                successCount.textContent = progress.successful;
+                failedCount.textContent = progress.failed;
+
+                if (progress.processed === progress.total) {
+                    eventSource.close();
+                }
+            };
+        });
+    </script>
 </body>
-<script src="/public/js/scripts.js"></script>
 </html>
