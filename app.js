@@ -85,14 +85,10 @@ app.use((req, res) => {
     });
 });
 
-// Start server locally; on Vercel the app is exported as a serverless handler.
+// Start server
 const port = process.env.PORT || 3000;
 
-if (process.env.VERCEL !== '1') {
-    app.listen(port, () => {
-        console.log(`Server running on http://localhost:${port}`);
-        console.log('Environment:', process.env.NODE_ENV || 'development');
-    });
-}
-
-export default app;
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running on port ${port}`);
+    console.log('Environment:', process.env.NODE_ENV || 'development');
+});

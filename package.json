@@ -4,6 +4,9 @@
   "description": "This Node.js application generates an XML sitemap for a given website URL. Users can provide the URL via an API endpoint, and the script recursively crawls the site to discover all internal links. It uses libraries like axios for HTTP requests, cheerio for HTML parsing, and sitemap for generating a properly formatted XML sitemap. The output sitemap can be used to improve SEO and assist search engines in indexing the site. The application follows a modular structure with separate controllers and routes, ensuring scalability and maintainability.",
   "main": "app.js",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "node app.js",
     "dev": "nodemon app.js",
