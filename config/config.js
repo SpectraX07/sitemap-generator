@@ -1,10 +1,8 @@
-const isVercel = process.env.VERCEL === '1';
-
 export default {
     crawler: {
-        maxDepth: isVercel ? 5 : 10,
-        maxPages: isVercel ? parseInt(process.env.MAX_PAGES || '100', 10) : 0,
-        maxConcurrentRequests: isVercel ? 2 : 3,
+        maxDepth: parseInt(process.env.MAX_DEPTH || '10', 10),
+        maxPages: parseInt(process.env.MAX_PAGES || '0', 10), // 0 = unlimited
+        maxConcurrentRequests: parseInt(process.env.MAX_CONCURRENT_REQUESTS || '3', 10),
         timeout: 30000, // 30 seconds
         retryAttempts: 3,
         retryDelay: 1000, // 1 second
@@ -15,7 +13,7 @@ export default {
         excludePatterns: [], // Array of regex patterns to exclude
         includePatterns: [], // Array of regex patterns to include
         customPriorities: {}, // Map of URL patterns to priorities
-        crawlDelay: isVercel ? 300 : 500, // Milliseconds between request batches — balance speed vs WAF blocks
+        crawlDelay: parseInt(process.env.CRAWL_DELAY || '500', 10), // Milliseconds between request batches
         renderJavaScript: false,
         checkMobileFriendly: false,
         checkBrokenLinks: false,
@@ -35,7 +33,6 @@ export default {
         cacheExpiration: 24 * 60 * 60, // 24 hours in seconds
         supportedFormats: ['xml', 'txt', 'html'],
         compressionEnabled: true,
-        // New options
         includeLastmod: true,
         includeImages: true,
         includeVideos: true,
@@ -64,4 +61,4 @@ export default {
         windowMs: 15 * 60 * 1000, // 15 minutes
         max: 100 // limit each IP to 100 requests per windowMs
     }
-}; 
+};

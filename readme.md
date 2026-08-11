@@ -49,6 +49,19 @@ A web-based application for generating sitemaps for any website. The tool fetche
 
 ---
 
+## Deploy on Railway
+
+1. Push this repo to GitHub.
+2. Go to [Railway](https://railway.app) → **New Project** → **Deploy from GitHub repo**.
+3. Select the `sitemap-generator` repository — Railway auto-detects Node.js via Nixpacks.
+4. Railway sets `PORT` automatically; the app binds to `0.0.0.0` and uses it.
+5. Open **Settings → Networking → Generate Domain** (or add your custom domain).
+6. Optional: add variables from [`.env.example`](.env.example) under **Variables**.
+
+No build step required — start command is `npm start` (also defined in `railway.toml`).
+
+---
+
 ## API Endpoint
 
 Ensure you have an API endpoint that the tool can call to generate the sitemap. The API should:
