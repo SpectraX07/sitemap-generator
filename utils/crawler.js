@@ -83,7 +83,10 @@ class Crawler extends EventEmitter {
                 urls: Array.from(this.visited),
                 metadata: Object.fromEntries(this.metadata),
                 errors: this.errors,
-                stats: this.progress
+                stats: this.progress,
+                ...(this.options.maxPages > 0 && this.visited.size >= this.options.maxPages
+                    ? { truncated: true, maxPages: this.options.maxPages }
+                    : {})
             };
 
             this.emit('complete', result);
@@ -100,12 +103,18 @@ class Crawler extends EventEmitter {
 
     async processQueue() {
         const inFlight = new Set();
+        const maxPages = this.options.maxPages || 0;
 
         while ((this.queue.length > 0 || inFlight.size > 0) && !this.cancelled) {
+            if (maxPages > 0 && this.visited.size >= maxPages) {
+                this.queue = [];
+            }
+
             while (
                 this.queue.length > 0 &&
                 inFlight.size < this.options.maxConcurrentRequests &&
-                !this.cancelled
+                !this.cancelled &&
+                (maxPages === 0 || this.visited.size < maxPages)
             ) {
                 const { url, depth } = this.queue.shift();
                 const task = this.processUrl(url, depth)
@@ -142,7 +151,12 @@ class Crawler extends EventEmitter {
     }
 
     async processUrl(url, depth = 0) {
-        if (this.cancelled || depth >= this.options.maxDepth || this.visited.has(url)) {
+        if (
+            this.cancelled ||
+            depth >= this.options.maxDepth ||
+            this.visited.has(url) ||
+            (this.options.maxPages > 0 && this.visited.size >= this.options.maxPages)
+        ) {
             return;
         }
 
